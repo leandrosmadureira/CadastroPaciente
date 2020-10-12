@@ -5,7 +5,7 @@ class Home extends BaseController
 	public function index()
 	{
 		$pacienteModel = new \App\Models\PacienteModel();
-		
+		/*
 		$pacienteModel->insert([
 			'nm_paciente' 	=> 'LEANDRO SOARES MADUREIRA',
 			'nm_mae'		=> 'APARECIDA SOARES SANTANA MADUREIRA',
@@ -15,6 +15,7 @@ class Home extends BaseController
 			'nr_cns'		=> '123456789987654',
 			'ds_foto'		=> 'foto01.jpg'
 		]);
+		*/
 		print_r($pacienteModel->findAll());
 		
 		return view('welcome_message');

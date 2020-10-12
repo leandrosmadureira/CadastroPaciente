@@ -31,7 +31,7 @@ class Database extends \CodeIgniter\Database\Config
 	 */
 	public $default = [
 		'DSN'      => '',
-		'hostname' => 'localhost',
+		'hostname' => '127.0.0.1',
 		'username' => 'postgres',
 		'password' => '123456',
 		'database' => 'cadastro',
@@ -60,6 +60,26 @@ class Database extends \CodeIgniter\Database\Config
 	public $tests = [
 		'DSN'      => '',
 		'hostname' => '127.0.0.1',
+		'username' => 'postgres',
+		'password' => '123456',
+		'database' => 'cadastro',
+		'DBDriver' => 'Postgre',
+		'DBPrefix' => '',
+		'pConnect' => false,
+		'DBDebug'  => (ENVIRONMENT !== 'production'),
+		'cacheOn'  => false,
+		'cacheDir' => '',
+		'charset'  => 'utf8',
+		'DBCollat' => 'utf8_general_ci',
+		'swapPre'  => '',
+		'encrypt'  => false,
+		'compress' => false,
+		'strictOn' => false,
+		'failover' => [],
+		'port'     => 5432,
+		/*
+		'DSN'      => '',
+		'hostname' => '127.0.0.1',
 		'username' => '',
 		'password' => '',
 		'database' => ':memory:',
@@ -77,6 +97,7 @@ class Database extends \CodeIgniter\Database\Config
 		'strictOn' => false,
 		'failover' => [],
 		'port'     => 3306,
+		*/
 	];
 
 	//--------------------------------------------------------------------
