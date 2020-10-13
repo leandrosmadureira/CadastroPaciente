@@ -1,0 +1,133 @@
+-- Table: public.paciente
+
+-- DROP TABLE public.paciente;
+
+CREATE TABLE public.paciente
+(
+    cd_paciente integer NOT NULL DEFAULT nextval('paciente_cd_paciente_seq'::regclass),
+    nm_paciente character varying(150) COLLATE pg_catalog."default" NOT NULL,
+    nm_pai character varying(150) COLLATE pg_catalog."default",
+    nm_mae character varying(150) COLLATE pg_catalog."default" NOT NULL,
+    dt_nascimento date NOT NULL,
+    nr_cpf character varying(15) COLLATE pg_catalog."default" NOT NULL,
+    nr_cns character varying(50) COLLATE pg_catalog."default" NOT NULL,
+    ds_foto character varying(150) COLLATE pg_catalog."default",
+    CONSTRAINT paciente_pkey PRIMARY KEY (cd_paciente)
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE public.paciente
+    OWNER to postgres;
+
+-- Table: public.usuario
+
+-- DROP TABLE public.usuario;
+
+CREATE TABLE public.usuario
+(
+    cd_usuario character varying(70) COLLATE pg_catalog."default" NOT NULL,
+    nm_usuario character varying(150) COLLATE pg_catalog."default" NOT NULL,
+    created_at time without time zone,
+    updated_at time without time zone,
+    deleted_at time without time zone,
+    CONSTRAINT usuario_pkey PRIMARY KEY (cd_usuario)
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE public.usuario
+    OWNER to postgres;
+
+-- Table: public.usuario_permissao
+
+-- DROP TABLE public.usuario_permissao;
+
+CREATE TABLE public.usuario_permissao
+(
+    cd_usuario_permissao integer NOT NULL,
+    cd_permissao integer NOT NULL,
+    cd_usuario character varying(70) COLLATE pg_catalog."default" NOT NULL,
+    CONSTRAINT cd_usuario_permissao PRIMARY KEY (cd_usuario_permissao),
+    CONSTRAINT perm_usu_perm FOREIGN KEY (cd_permissao)
+        REFERENCES public.permissao (cd_permissao) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+        NOT VALID,
+    CONSTRAINT usu_perm FOREIGN KEY (cd_usuario)
+        REFERENCES public.usuario (cd_usuario) MATCH SIMPLE
+        ON UPDATE CASCADE
+        ON DELETE CASCADE
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE public.usuario_permissao
+    OWNER to postgres;
+
+
+-- Table: public.permissao
+
+-- DROP TABLE public.permissao;
+
+CREATE TABLE public.permissao
+(
+    cd_permissao integer NOT NULL,
+    nm_permissao character varying(100) COLLATE pg_catalog."default" NOT NULL,
+    ds_permissao character varying(200) COLLATE pg_catalog."default" NOT NULL,
+    CONSTRAINT permissao_pkey PRIMARY KEY (cd_permissao)
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE public.permissao
+    OWNER to postgres;
+
+-- Table: public.endereco
+
+-- DROP TABLE public.endereco;
+
+CREATE TABLE public.endereco
+(
+    cd_endereco integer NOT NULL DEFAULT nextval('endereco_cd_endereco_seq'::regclass),
+    cep character varying(10) COLLATE pg_catalog."default",
+    logradouro character varying(200) COLLATE pg_catalog."default",
+    complemento character varying(200) COLLATE pg_catalog."default",
+    bairro character varying(100) COLLATE pg_catalog."default",
+    localidade character varying(100) COLLATE pg_catalog."default",
+    uf character varying(3) COLLATE pg_catalog."default",
+    cd_paciente integer NOT NULL,
+    CONSTRAINT endereco_pkey PRIMARY KEY (cd_endereco),
+    CONSTRAINT paciente_endereco FOREIGN KEY (cd_paciente)
+        REFERENCES public.paciente (cd_paciente) MATCH SIMPLE
+        ON UPDATE CASCADE
+        ON DELETE CASCADE
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE public.endereco
+    OWNER to postgres;
+
+-- Table: public.contato
+
+-- DROP TABLE public.contato;
+
+CREATE TABLE public.contato
+(
+    cd_contato integer NOT NULL DEFAULT nextval('contato_cd_contato_seq'::regclass),
+    tp_contato character varying(2) COLLATE pg_catalog."default" NOT NULL,
+    ds_contato character varying(150) COLLATE pg_catalog."default" NOT NULL,
+    principal character varying(2) COLLATE pg_catalog."default" NOT NULL,
+    cd_paciente integer,
+    CONSTRAINT contato_pkey PRIMARY KEY (cd_contato),
+    CONSTRAINT paciente_contato FOREIGN KEY (cd_paciente)
+        REFERENCES public.paciente (cd_paciente) MATCH SIMPLE
+        ON UPDATE CASCADE
+        ON DELETE CASCADE
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE public.contato
+    OWNER to postgres;
