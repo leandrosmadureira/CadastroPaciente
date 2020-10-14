@@ -17,6 +17,14 @@ class Paciente extends BaseController {
     $nr_cpf = (($this->request->getPostGet('nr_cpf')) ? $this->request->getPostGet('nr_cpf') : null);
     $nr_cns = (($this->request->getPostGet('nr_cns')) ? $this->request->getPostGet('nr_cns') : null);
     $ds_foto = (($this->request->getPostGet('ds_foto')) ? $this->request->getPostGet('ds_foto') : null);
+
+    $cep = (($this->request->getPostGet('cep')) ? $this->request->getPostGet('cep') : null);
+    $logradouro = (($this->request->getPostGet('logradouro')) ? $this->request->getPostGet('logradouro') : null);
+    $numero = (($this->request->getPostGet('numero')) ? $this->request->getPostGet('numero') : null);
+    $bairro = (($this->request->getPostGet('bairro')) ? $this->request->getPostGet('bairro') : null);
+    $cidade = (($this->request->getPostGet('cidade')) ? $this->request->getPostGet('cidade') : null);
+    $uf = (($this->request->getPostGet('uf')) ? $this->request->getPostGet('uf') : null);
+    
     $submit = (($this->request->getPostGet('submit')) ? $this->request->getPostGet('submit') : null);
     $msg_erro = "";
     $msg = "";
@@ -30,6 +38,15 @@ class Paciente extends BaseController {
     $paciente['nr_cpf'] = $nr_cpf;
     $paciente['nr_cns'] = $nr_cns;
     $paciente['ds_foto'] = $ds_foto;
+
+    $endereco = [];
+    $endereco['cep'] = $cep;
+    $endereco['logradouro'] = $logradouro;
+    $endereco['numero'] = $numero;
+    $endereco['bairro'] = $bairro;
+    $endereco['cidade'] = $cidade;
+    $endereco['uf'] = $uf;
+
 
     if ($submit == 'submit') {
       $msg_erro .= (!isset($nm_paciente) ? "Necessário informar um nome! </br>" : null);
@@ -81,6 +98,7 @@ class Paciente extends BaseController {
     }
     $dados['paciente'] = $paciente;
     $dados['msg_erro'] = $msg_erro;
+    $dados['endereco'] = $endereco;
     $dados['msg'] = $msg;
     return view('paciente\paciente', $dados);
 

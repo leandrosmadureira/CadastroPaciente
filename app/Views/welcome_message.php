@@ -91,7 +91,7 @@
 
 <body>
     <!-- Inicio do formulario -->
-    <form method="get" action=".">
+    <form method="post" action=".">
         <label>Cep:
             <input name="cep" type="text" id="cep" value="" size="10" maxlength="9" /></label><br />
         <label>logradouro:

@@ -7,15 +7,22 @@ $dt_nascimento = (($paciente['dt_nascimento']) ? $paciente['dt_nascimento'] : nu
 $nr_cpf = (($paciente['nr_cpf']) ? $paciente['nr_cpf'] : null);
 $nr_cns = (($paciente['nr_cns']) ? $paciente['nr_cns'] : null);
 $ds_foto = (($paciente['ds_foto']) ? $paciente['ds_foto'] : null);
+
+$cep = (($endereco['cep']) ? $endereco['cep'] : null);
+$logradouro = (($endereco['logradouro']) ? $endereco['logradouro'] : null);
+$numero = (($endereco['numero']) ? $endereco['numero'] : null);
+$bairro = (($endereco['bairro']) ? $endereco['bairro'] : null);
+$cidade = (($endereco['cidade']) ? $endereco['cidade'] : null);
+$uf = (($endereco['uf']) ? $endereco['uf'] : null);
+
 ?>
 <!doctype html>
-<html lang="en">
+<html lang="pt-br">
 
 <head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
@@ -31,12 +38,12 @@ $ds_foto = (($paciente['ds_foto']) ? $paciente['ds_foto'] : null);
         integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous">
     </script>
     <title>Hello, world!</title>
-    <!-- Adicionando JQuery -->
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"
         integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
     <!-- Adicionando Javascript -->
     <script>
     $(document).ready(function() {
+
         function limpa_formulário_cep() {
             // Limpa valores do formulário de cep.
             $("#logradouro").val("");
@@ -70,6 +77,7 @@ $ds_foto = (($paciente['ds_foto']) ? $paciente['ds_foto'] : null);
 
                     //Consulta o webservice viacep.com.br/
                     $.getJSON("https://viacep.com.br/ws/" + cep + "/json/?callback=?", function(dados) {
+
                         if (!("erro" in dados)) {
                             //Atualiza os campos com os valores da consulta.
                             $("#logradouro").val(dados.logradouro);
@@ -84,7 +92,6 @@ $ds_foto = (($paciente['ds_foto']) ? $paciente['ds_foto'] : null);
                             alert("CEP não encontrado.");
                         }
                     });
-                    alert(dados)
                 } //end if.
                 else {
                     //cep é inválido.
@@ -123,16 +130,16 @@ $ds_foto = (($paciente['ds_foto']) ? $paciente['ds_foto'] : null);
             ?>
         <nav>
             <div class="nav nav-tabs" id="nav-tab" role="tablist">
-                <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab"
-                    aria-controls="nav-home" aria-selected="true">Paciente</a>
-                <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab"
-                    aria-controls="nav-profile" aria-selected="false">Endereço</a>
-                <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-contact" role="tab"
-                    aria-controls="nav-contact" aria-selected="false">Contato</a>
+                <a class="nav-item nav-link active" id="nav-paciente-tab" data-toggle="tab" href="#nav-paciente"
+                    role="tab" aria-controls="nav-paciente" aria-selected="true">Paciente</a>
+                <a class="nav-item nav-link" id="nav-endereco-tab" data-toggle="tab" href="#nav-endereco" role="tab"
+                    aria-controls="nav-endereco" aria-selected="false">Endereço</a>
+                <a class="nav-item nav-link" id="nav-contato-tab" data-toggle="tab" href="#nav-contato" role="tab"
+                    aria-controls="nav-contato" aria-selected="false">Contato</a>
             </div>
         </nav>
         <div class="tab-content" id="nav-tabContent">
-            <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+            <div class="tab-pane fade show active" id="nav-paciente" role="tabpanel" aria-labelledby="nav-paciente-tab">
                 <form method='POST' action='<?= base_url('index.php/paciente') ?>'>
                     <label for="inputCod">Codigo</label>
                     <div class="input-group col-md-2">
@@ -188,58 +195,55 @@ $ds_foto = (($paciente['ds_foto']) ? $paciente['ds_foto'] : null);
                     <button type="submit" class="btn btn-primary" name='submit' value='submit'>Entrar</button>
                 </form>
             </div>
-            <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+            <div class="tab-pane fade" id="nav-endereco" role="tabpanel" aria-labelledby="nav-endereco-tab">
                 <form method='POST' action='<?= base_url('index.php/paciente') ?>'>
                     <div class="form-group col-md-2">
                         <label for="inputCEP">CEP</label>
-                        <input type="text" class="form-control" id="cep">
-                    </div>
-                    <div class="form-group">
-                        <label for="inputAddress">Endereço</label>
-                        <input type="text" class="form-control" id="logradouro" placeholder="Rua dos Bobos, nº 0"
-                            name="logradouro">
+                        <input type="text" class="form-control" id="cep" value="<?= $cep ?>">
                     </div>
                     <div class="form-row">
-                    <div class="form-group col-md-4">
+                        <div class="form-group col-md-7">
+                            <label for="inputAddress">Endereço</label>
+                            <input type="text" class="form-control" id="logradouro" placeholder="Rua dos Bobos"
+                                name="logradouro" value="<?= $logradouro ?>">
+                        </div>
+                        <div class="form-group col-md-2">
+                            <label for="inputCity">Nº</label>
+                            <input type="text" class="form-control" id="numero" name="numero" value="<?= $numero ?>">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-4">
                             <label for="inputCity">Bairro</label>
-                            <input type="text" class="form-control" id="cidade" name="cidade">
+                            <input type="text" class="form-control" id="bairro" name="bairro" value="<?= $bairro ?>">
                         </div>
                         <div class="form-group col-md-4">
                             <label for="inputCity">Cidade</label>
-                            <input type="text" class="form-control" id="cidade" name="cidade">
+                            <input type="text" class="form-control" id="cidade" name="cidade" value="<?= $cidade ?>">
                         </div>
-                        <div class="form-group col-md-4">
+                        <div class="form-group col-md-1">
                             <label for="inputEstado">Estado</label>
-                            <select id="uf" name="uf" class="form-control">
-                                <option selected>Escolher...</option>
-                                <option>...</option>
-                            </select>
-                            <input name="ibge" type="text" id="ibge" size="8" /></label><br />
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" id="gridCheck">
-                            <label class="form-check-label" for="gridCheck">
-                                Clique em mim
-                            </label>
+                            <input type="text" class="form-control" id="uf" name="uf" value="<?= $uf ?>">
                         </div>
                     </div>
             </div>
-            <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">...</div>
+            <div class="tab-pane fade" id="nav-contato" role="tabpanel" aria-labelledby="nav-contato-tab">
+                teste...
+            </div>
         </div>
-    </div>
-    <!-- Optional JavaScript -->
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+        <!-- Optional JavaScript -->
+        <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+        <!--
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
         integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous">
     </script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
-        integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous">
-    </script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
-        integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous">
-    </script>
+    -->
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
+            integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous">
+        </script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
+            integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous">
+        </script>
 </body>
 
 </html>
