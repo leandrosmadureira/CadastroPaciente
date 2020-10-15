@@ -94,7 +94,6 @@ class Paciente extends BaseController {
     }
     if($submit == 'consulta'){
       $paciente = (array) $pacienteModel->getPacientes(10, $cd_paciente, $nm_paciente, $nr_cpf)[0];
-      
     }
     $dados['paciente'] = $paciente;
     $dados['msg_erro'] = $msg_erro;

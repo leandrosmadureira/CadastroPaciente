@@ -42,6 +42,22 @@ $uf = (($endereco['uf']) ? $endereco['uf'] : null);
         integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
     <!-- Adicionando Javascript -->
     <script>
+    function getContent(consulta, cd_paciente) {
+        $.ajax({
+        url: '<?= base_url('index.php/paciente')?>', //sua página em php que retornará os dados
+        type: 'POST', // método post, GET ...
+        data: 'cd_paciente':1,'submit':'consulta', //seus paramêtros
+        success: function(data) { // sucesso de retorno executar função
+        alert(data);
+            $('#nm_paciente').html(data); // adiciona o resultado na div #result
+        }
+    });
+    }
+
+    $(document).ready(function() {
+        getContent();
+    });
+
     $(document).ready(function() {
 
         function limpa_formulário_cep() {
@@ -148,7 +164,8 @@ $uf = (($endereco['uf']) ? $endereco['uf'] : null);
                             aria-describedby="button-addon2" id="cd_paciente" name='cd_paciente'
                             value="<?= $cd_paciente ?>">
                         <div class="input-group-append">
-                            <button class="btn btn-outline-secondary" type="button" id="button-addon2">
+                            <button class="btn btn-outline-secondary" type="button" id="button-addon2"
+                                data-toggle="modal" data-target=".bd-example-modal-lg" onclick="getContent('consulta',1)">
                                 <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-search"
                                     fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                                     <path fill-rule="evenodd"
@@ -229,6 +246,15 @@ $uf = (($endereco['uf']) ? $endereco['uf'] : null);
             </div>
             <div class="tab-pane fade" id="nav-contato" role="tabpanel" aria-labelledby="nav-contato-tab">
                 teste...
+            </div>
+        </div>
+
+        <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    ...
+                </div>
             </div>
         </div>
         <!-- Optional JavaScript -->
