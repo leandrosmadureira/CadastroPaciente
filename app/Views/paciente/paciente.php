@@ -39,21 +39,10 @@ $uf = (($endereco['uf']) ? $endereco['uf'] : null);
     </script>
     <title>Hello, world!</title>
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"
-        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous">
+    </script>
     <!-- Adicionando Javascript -->
     <script>
-    function getContent(consulta, cd_paciente) {
-        $.ajax({
-        url: '<?= base_url('index.php/paciente')?>', //sua página em php que retornará os dados
-        type: 'POST', // método post, GET ...
-        data: 'cd_paciente':1,'submit':'consulta', //seus paramêtros
-        success: function(data) { // sucesso de retorno executar função
-        alert(data);
-            $('#nm_paciente').html(data); // adiciona o resultado na div #result
-        }
-    });
-    }
-
     $(document).ready(function() {
         getContent();
     });
@@ -68,7 +57,7 @@ $uf = (($endereco['uf']) ? $endereco['uf'] : null);
             $("#uf").val("");
             $("#ibge").val("");
         }
-
+        alert('teste');
         //Quando o campo cep perde o foco.
         $("#cep").blur(function() {
 
@@ -165,7 +154,8 @@ $uf = (($endereco['uf']) ? $endereco['uf'] : null);
                             value="<?= $cd_paciente ?>">
                         <div class="input-group-append">
                             <button class="btn btn-outline-secondary" type="button" id="button-addon2"
-                                data-toggle="modal" data-target=".bd-example-modal-lg" onclick="getContent('consulta',1)">
+                                data-toggle="modal" data-target=".bd-example-modal-lg"
+                                onclick="getContent('consulta',1)">
                                 <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-search"
                                     fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                                     <path fill-rule="evenodd"
