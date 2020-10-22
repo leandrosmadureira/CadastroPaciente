@@ -24,7 +24,7 @@ class Paciente extends BaseController {
     $bairro = (($this->request->getPostGet('bairro')) ? $this->request->getPostGet('bairro') : null);
     $cidade = (($this->request->getPostGet('cidade')) ? $this->request->getPostGet('cidade') : null);
     $uf = (($this->request->getPostGet('uf')) ? $this->request->getPostGet('uf') : null);
-    
+
     $submit = (($this->request->getPostGet('submit')) ? $this->request->getPostGet('submit') : null);
     $msg_erro = "";
     $msg = "";
@@ -57,44 +57,45 @@ class Paciente extends BaseController {
       $msg_erro .= (!isset($nr_cpf) ? "<b>CPF</b> deve ser informado! </br>" : null);
       if ($msg_erro == '') {
         $msg_erro .= ((!$this->validaCPF($nr_cpf)) ? "<b>CPF</b> Invalido </br>" : null);
-        $duplicidade = $pacienteModel->where('nr_cpf',"$nr_cpf")->findAll();
-        $msg_erro .= ((count($duplicidade) > 0) and !$cd_paciente ? "Já existe paciente cadastrado com esse CPF <br>": null);
+        $duplicidade = $pacienteModel->where('nr_cpf', "$nr_cpf")->findAll();
+        $msg_erro .= ((count($duplicidade) > 0) and ! $cd_paciente ? "Já existe paciente cadastrado com esse CPF <br>" : null);
         $msg_erro .= (!$this->validaCns($nr_cns) ? "<b>CNS</b> inválido! </br>" : null);
         $dt = explode('-', $dt_nascimento);
         $msg_erro .= (!checkdate($dt[1], $dt[2], $dt[0]) ? "<b>Data de Nascimento</b> inválido! </br>" : null);
-      }  
+      }
       if (!$msg_erro) {
         if (isset($cd_paciente)) {
-          if($pacienteModel->update($paciente['cd_paciente'], [
-            'nm_paciente' => $paciente['nm_paciente'],
-            'nm_mae' => $paciente['nm_mae'],
-            'nm_pai' => $paciente['nm_pai'],
-            'dt_nascimento' => $paciente['dt_nascimento'],
-            'nr_cpf' => $paciente['nr_cpf'],
-            'nr_cns' => $paciente['nr_cns'],
-            'ds_foto' => $paciente['ds_foto']
-          ])){
+          if ($pacienteModel->update($paciente['cd_paciente'], [
+                      'nm_paciente' => $paciente['nm_paciente'],
+                      'nm_mae' => $paciente['nm_mae'],
+                      'nm_pai' => $paciente['nm_pai'],
+                      'dt_nascimento' => $paciente['dt_nascimento'],
+                      'nr_cpf' => $paciente['nr_cpf'],
+                      'nr_cns' => $paciente['nr_cns'],
+                      'ds_foto' => $paciente['ds_foto']
+                  ])) {
             $msg .= "Dados atualizados como sucesso! <br>";
           };
         } else {
-          if($pacienteModel->insert(
-            [
-              'nm_paciente' => $paciente['nm_paciente'],
-              'nm_mae' => $paciente['nm_mae'],
-              'nm_pai' => $paciente['nm_pai'],
-              'dt_nascimento' => $paciente['dt_nascimento'],
-              'nr_cpf' => $paciente['nr_cpf'],
-              'nr_cns' => $paciente['nr_cns'],
-              'ds_foto' => $paciente['ds_foto']
-          ])){
+          if ($pacienteModel->insert(
+                          [
+                              'nm_paciente' => $paciente['nm_paciente'],
+                              'nm_mae' => $paciente['nm_mae'],
+                              'nm_pai' => $paciente['nm_pai'],
+                              'dt_nascimento' => $paciente['dt_nascimento'],
+                              'nr_cpf' => $paciente['nr_cpf'],
+                              'nr_cns' => $paciente['nr_cns'],
+                              'ds_foto' => $paciente['ds_foto']
+                  ])) {
             $msg .= "Dados inseridos como sucesso! <br>";
           };
         }
       }
     }
-    if($submit == 'consulta'){
+    if ($submit == 'consulta') {
       $paciente = (array) $pacienteModel->getPacientes(10, $cd_paciente, $nm_paciente, $nr_cpf)[0];
     }
+
     $dados['paciente'] = $paciente;
     $dados['msg_erro'] = $msg_erro;
     $dados['endereco'] = $endereco;
@@ -102,6 +103,36 @@ class Paciente extends BaseController {
     return view('paciente\paciente', $dados);
 
     //--------------------------------------------------------------------
+  }
+
+  public function consulta() {
+    $pacienteModel = new \App\Models\PacienteModel();
+    $html = "";
+    $cd_paciente = (($this->request->getPostGet('cd_paciente')) ? $this->request->getPostGet('cd_paciente') : null);
+    $nm_paciente = (($this->request->getPostGet('nm_paciente')) ? $this->request->getPostGet('nm_paciente') : null);
+    $nm_mae = (($this->request->getPostGet('nm_mae')) ? $this->request->getPostGet('nm_mae') : null);
+    $nm_pai = (($this->request->getPostGet('nm_pai')) ? $this->request->getPostGet('nm_pai') : null);
+    $dt_nascimento = (($this->request->getPostGet('dt_nascimento')) ? $this->request->getPostGet('dt_nascimento') : null);
+    $nr_cpf = (($this->request->getPostGet('nr_cpf')) ? $this->request->getPostGet('nr_cpf') : null);
+    $nr_cns = (($this->request->getPostGet('nr_cns')) ? $this->request->getPostGet('nr_cns') : null);
+    $submit = (($this->request->getPostGet('submit')) ? $this->request->getPostGet('submit') : null);
+
+    $paciente = (array) $pacienteModel->getPacientes(10, $cd_paciente, $nm_paciente, $nr_cpf);
+    $html = "<table class='table'>"
+            . "<tr>"
+            . "<td><b>Cod</b></td>"
+            . "<td><b>Paciente</b></td>"
+            . "<td><b>CPF</b></td>"
+            . "</tr>";
+    foreach ($paciente as $key => $val) {
+      $html .= "<tr>"
+              . "<td>$val->cd_paciente</td>"
+              . "<td>$val->nm_paciente</td>"
+              . "<td>$val->nr_cpf</td>"
+              . "</tr>";
+    }
+    $html .= "</table>";
+    return $html;
   }
 
 }
