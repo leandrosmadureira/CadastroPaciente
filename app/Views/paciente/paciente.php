@@ -15,8 +15,6 @@ $bairro = (($endereco['bairro']) ? $endereco['bairro'] : null);
 $cidade = (($endereco['cidade']) ? $endereco['cidade'] : null);
 $uf = (($endereco['uf']) ? $endereco['uf'] : null);
 //date_default_timezone_set("Brazil/East");
-print_r(date('d/m/Y H:i:s'));
-print_r(phpinfo());
 ?>
 <!doctype html>
 <html lang="pt-br">
@@ -39,25 +37,27 @@ print_r(phpinfo());
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
                 integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous">
         </script>
-        <title>Hello, world!</title>
+        <title>Cadastro de Paciente</title>
         <script src="https://code.jquery.com/jquery-3.4.1.min.js"
                 integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous">
         </script>
         <!-- Adicionando Javascript -->
         <script>
           function consultar() {
-            var cd_paciente = document.getElementById('cd_paciente').value;
-            var nm_paciente = document.getElementDyId('nm_paciente').value;
-            alert(cd_paciente);
+              var cd_paciente = document.getElementById('cd_paciente').value;
+              var nm_paciente = document.getElementById('nm_paciente').value;
+              var nr_cpf = document.getElementById('nr_cpf').value;
+
               $.ajax({
-                  url: "<?= base_url('index.php/Paciente/consulta')?>", //sua página em php que retornará os dados
+                  url: "<?= base_url('index.php/Paciente/consulta') ?>", //sua página em php que retornará os dados
                   type: 'POST', // método post, GET ...
-                  data: 'cd_paciente='+cd_paciente+'&submit=consulta', //seus paramêtros
+                  data: 'cd_paciente=' + cd_paciente + '&nm_paciente=' + nm_paciente + '&nr_cpf=' + nr_cpf + '&submit=consulta', //seus paramêtros
                   success: function (data) { // sucesso de retorno executar função
                       $('#resultado').html(data); // adiciona o resultado na div #result
                   }
               });
           }
+
           $(document).ready(function () {
               getContent();
           });
@@ -151,10 +151,8 @@ print_r(phpinfo());
                 <div class="nav nav-tabs" id="nav-tab" role="tablist">
                     <a class="nav-item nav-link active" id="nav-paciente-tab" data-toggle="tab" href="#nav-paciente"
                        role="tab" aria-controls="nav-paciente" aria-selected="true">Paciente</a>
-                    <a class="nav-item nav-link" id="nav-endereco-tab" data-toggle="tab" href="#nav-endereco" role="tab"
-                       aria-controls="nav-endereco" aria-selected="false">Endereço</a>
-                    <a class="nav-item nav-link" id="nav-contato-tab" data-toggle="tab" href="#nav-contato" role="tab"
-                       aria-controls="nav-contato" aria-selected="false">Contato</a>
+                    <a class="nav-item nav-link" id="nav-endereco-tab" data-toggle="tab" href="#nav-endereco" role="tab" aria-controls="nav-endereco" aria-selected="false">Endereço</a>
+                    <a class="nav-item nav-link" id="nav-contato-tab" data-toggle="tab" href="#nav-contato" role="tab" aria-controls="nav-contato" aria-selected="false">Contato</a>
                 </div>
             </nav>
             <div class="tab-content" id="nav-tabContent">
@@ -163,28 +161,21 @@ print_r(phpinfo());
                         <label for="inputCod">Codigo</label>
                         <div class="input-group col-md-2">
 
-                            <input type="text" class="form-control" placeholder="Código" aria-label="Código do paciente"
-                                   aria-describedby="button-addon2" id="cd_paciente" name='cd_paciente'
-                                   value="<?= $cd_paciente ?>">
+                            <input type="text" class="form-control" placeholder="Código" aria-label="Código do paciente" aria-describedby="button-addon2" id="cd_paciente" name='cd_paciente' value="<?= $cd_paciente ?>">
                             <div class="input-group-append">
-                                <button class="btn btn-outline-secondary" type="button" id="button-addon2"
-                                        data-toggle="modal" data-target=".bd-example-modal-lg"
-                                        onclick="consultar()">
-                                    <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-search"
-                                         fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                                    <path fill-rule="evenodd"
-                                          d="M10.442 10.442a1 1 0 0 1 1.415 0l3.85 3.85a1 1 0 0 1-1.414 1.415l-3.85-3.85a1 1 0 0 1 0-1.415z" />
-                                    <path fill-rule="evenodd"
-                                          d="M6.5 12a5.5 5.5 0 1 0 0-11 5.5 5.5 0 0 0 0 11zM13 6.5a6.5 6.5 0 1 1-13 0 6.5 6.5 0 0 1 13 0z" />
+                                <button onclick="consultar()" class="btn btn-outline-secondary" type="button"
+                                        id="button-addon2" data-toggle="modal" data-target=".bd-example-modal-lg">
+                                    <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-search" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd" d="M10.442 10.442a1 1 0 0 1 1.415 0l3.85 3.85a1 1 0 0 1-1.414 1.415l-3.85-3.85a1 1 0 0 1 0-1.415z"/>
+                                    <path fill-rule="evenodd" d="M6.5 12a5.5 5.5 0 1 0 0-11 5.5 5.5 0 0 0 0 11zM13 6.5a6.5 6.5 0 1 1-13 0 6.5 6.5 0 0 1 13 0z"/>
                                     </svg>
                                 </button>
                             </div>
                         </div>
                         <div class="form-row">
                             <div class="form-group col-md-3">
-                                <label for="inputNome">Nome</label>
-                                <input type="text" class="form-control" id="nm_paciente" name='nm_paciente'
-                                       value="<?= $nm_paciente ?>">
+                                <label for="inputPaciente">Paciente</label>
+                                <input type="text" class="form-control" id="nm_paciente" name='nm_paciente' value="<?= $nm_paciente ?>" onkeyup="javascript:this.value = this.value.toUpperCase();">
                             </div>
                             <div class="form-group col-md-2">
                                 <label for="inputDtNascimento">Data de Nascimento</label>
@@ -203,11 +194,11 @@ print_r(phpinfo());
                         <div class="form-row">
                             <div class="form-group col-md-5">
                                 <label for="inputMae">Mãe</label>
-                                <input type="text" class="form-control" id="nm_mae" name='nm_mae' value="<?= $nm_mae ?>">
+                                <input type="text" class="form-control" id="nm_mae" name='nm_mae' value="<?= $nm_mae ?>" onkeyup="javascript:this.value = this.value.toUpperCase();">
                             </div>
                             <div class="form-group col-md-5">
                                 <label for="inputPai">Pai</label>
-                                <input type="text" class="form-control" id="nm_pai" name='nm_pai' value="<?= $nm_pai ?>">
+                                <input type="text" class="form-control" id="nm_pai" name='nm_pai' value="<?= $nm_pai ?>" onkeyup="javascript:this.value = this.value.toUpperCase();">
                             </div>
                         </div>
                         <hr>
@@ -220,43 +211,49 @@ print_r(phpinfo());
                     <form method='POST' action='<?= base_url('index.php/paciente') ?>'>
                         <div class="form-group col-md-2">
                             <label for="inputCEP">CEP</label>
-                            <input type="text" class="form-control" id="cep" value="<?= $cep ?>">
+                            <input type="text" class="form-control cep" id="cep" value="<?= $cep ?>"
+                                   pattern="\([0-9]{2}\)[\s][0-9]{4}-[0-9]{4,5}">
                         </div>
                         <div class="form-row">
                             <div class="form-group col-md-7">
                                 <label for="inputAddress">Endereço</label>
-                                <input type="text" class="form-control" id="logradouro" placeholder="Rua dos Bobos"
-                                       name="logradouro" value="<?= $logradouro ?>">
+                                <input type="text" class="form-control" id="logradouro" placeholder="Rua Um"
+                                       name="logradouro" value="<?= $logradouro ?>"
+                                       onkeyup="javascript:this.value = this.value.toUpperCase();">
                             </div>
                             <div class="form-group col-md-2">
                                 <label for="inputCity">Nº</label>
-                                <input type="text" class="form-control" id="numero" name="numero" value="<?= $numero ?>">
+                                <input type="text" class="form-control" id="numero" name="numero" value="<?= $numero ?>"
+                                       onkeyup="javascript:this.value = this.value.toUpperCase();">
                             </div>
                         </div>
                         <div class="form-row">
                             <div class="form-group col-md-4">
                                 <label for="inputCity">Bairro</label>
-                                <input type="text" class="form-control" id="bairro" name="bairro" value="<?= $bairro ?>">
+                                <input type="text" class="form-control" id="bairro" name="bairro" value="<?= $bairro ?>"
+                                       onkeyup="javascript:this.value = this.value.toUpperCase();">
                             </div>
                             <div class="form-group col-md-4">
                                 <label for="inputCity">Cidade</label>
-                                <input type="text" class="form-control" id="cidade" name="cidade" value="<?= $cidade ?>">
+                                <input type="text" class="form-control" id="cidade" name="cidade" value="<?= $cidade ?>"
+                                       onkeyup="javascript:this.value = this.value.toUpperCase();">
                             </div>
                             <div class="form-group col-md-1">
                                 <label for="inputEstado">Estado</label>
-                                <input type="text" class="form-control" id="uf" name="uf" value="<?= $uf ?>">
+                                <input type="text" class="form-control" id="uf" name="uf" value="<?= $uf ?>"
+                                       onkeyup="javascript:this.value = this.value.toUpperCase();" minlength="2" maxlength="2">
                             </div>
                         </div>
+                    </form>
                 </div>
                 <div class="tab-pane fade" id="nav-contato" role="tabpanel" aria-labelledby="nav-contato-tab">
                     teste...
                 </div>
             </div>
 
-            <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
-                 aria-hidden="true">
-                <div class="modal-dialog modal-lg">
-                    <div class="modal-content" id="resultado">
+            <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="modal-dialog-scrollable" aria-hidden="true">
+                <div class="modal-dialog modal-lg ">
+                    <div class="modal-content modal-dialog-scrollable" id="resultado">
                         ...
                     </div>
                 </div>
@@ -264,9 +261,9 @@ print_r(phpinfo());
             <!-- Optional JavaScript -->
             <!-- jQuery first, then Popper.js, then Bootstrap JS -->
             <!--
-        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
-            integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous">
-        </script>
+            <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+                integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous">
+            </script>
             -->
             <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
                     integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous">
