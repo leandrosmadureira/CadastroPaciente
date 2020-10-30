@@ -39,6 +39,24 @@ TABLESPACE pg_default;
 ALTER TABLE public.usuario
     OWNER to postgres;
 
+-- Table: public.permissao
+
+-- DROP TABLE public.permissao;
+
+CREATE TABLE public.permissao
+(
+    cd_permissao integer NOT NULL,
+    nm_permissao character varying(100) COLLATE pg_catalog."default" NOT NULL,
+    ds_permissao character varying(200) COLLATE pg_catalog."default" NOT NULL,
+    CONSTRAINT permissao_pkey PRIMARY KEY (cd_permissao)
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE public.permissao
+    OWNER to postgres;
+
+
 -- Table: public.usuario_permissao
 
 -- DROP TABLE public.usuario_permissao;
@@ -65,23 +83,6 @@ TABLESPACE pg_default;
 ALTER TABLE public.usuario_permissao
     OWNER to postgres;
 
-
--- Table: public.permissao
-
--- DROP TABLE public.permissao;
-
-CREATE TABLE public.permissao
-(
-    cd_permissao integer NOT NULL,
-    nm_permissao character varying(100) COLLATE pg_catalog."default" NOT NULL,
-    ds_permissao character varying(200) COLLATE pg_catalog."default" NOT NULL,
-    CONSTRAINT permissao_pkey PRIMARY KEY (cd_permissao)
-)
-
-TABLESPACE pg_default;
-
-ALTER TABLE public.permissao
-    OWNER to postgres;
 
 -- Table: public.endereco
 

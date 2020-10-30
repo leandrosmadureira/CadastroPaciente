@@ -41,6 +41,7 @@ $uf = (($endereco['uf']) ? $endereco['uf'] : null);
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"
         integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous">
     </script>
+    <script type="text/javascript" src="<?= base_url('style/js/func.js') ?>"></script>
     <!-- Adicionando Javascript -->
     <script>
     $(document).ready(function() {
@@ -57,7 +58,6 @@ $uf = (($endereco['uf']) ? $endereco['uf'] : null);
             $("#uf").val("");
             $("#ibge").val("");
         }
-        alert('teste');
         //Quando o campo cep perde o foco.
         $("#cep").blur(function() {
 
@@ -155,7 +155,7 @@ $uf = (($endereco['uf']) ? $endereco['uf'] : null);
                         <div class="input-group-append">
                             <button class="btn btn-outline-secondary" type="button" id="button-addon2"
                                 data-toggle="modal" data-target=".bd-example-modal-lg"
-                                onclick="getContent('consulta',1)">
+                                onclick='buscarNoticias(1)'>
                                 <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-search"
                                     fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                                     <path fill-rule="evenodd"
@@ -242,8 +242,8 @@ $uf = (($endereco['uf']) ? $endereco['uf'] : null);
         <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
             aria-hidden="true">
             <div class="modal-dialog modal-lg">
-                <div class="modal-content">
-                    ...
+                <div class="modal-content" id="resultado">
+                    
                 </div>
             </div>
         </div>
